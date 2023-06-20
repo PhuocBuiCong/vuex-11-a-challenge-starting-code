@@ -30,11 +30,31 @@ export default {
           price: 6.99,
         },
       ],
+      filteredProducts: [],
+      keyword: '',
     };
   },
   getters: {
     productList(state) {
       return state.products;
+    },
+    listFilteredProducts: (state) => state.filteredProducts,
+  },
+  mutations: {
+    setKeyword(state, keyword) {
+      state.keyword = keyword;
+    },
+    setFilteredProducts(state, products) {
+      state.products = products;
+    },
+  },
+  actions: {
+    filterProducts({ commit, state }, keyword) {
+      const filteredProducts = state.products.filter((product) =>
+        product.title.toLowerCase().includes(keyword.toLowerCase())
+      );
+      console.log('result', filteredProducts);
+      commit('setFilteredProducts', filteredProducts);
     },
   },
 };

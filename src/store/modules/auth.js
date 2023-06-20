@@ -42,9 +42,12 @@ export default {
     },
   },
   actions: {
-    validateFields({ commit }) {
-      commit('validateEmail');
-      commit('validatePassword');
+    validateFields({ commit }, field) {
+      if (field === 'email') {
+        commit('validateEmail');
+      } else if (field === 'password') {
+        commit('validatePassword');
+      }
     },
   },
 };

@@ -15,4 +15,6 @@ const router = createRouter({
   ],
 });
 
-export default router;
+export function useRouter() {
+  return router;
+}

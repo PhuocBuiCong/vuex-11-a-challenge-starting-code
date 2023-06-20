@@ -1,8 +1,15 @@
 <template>
   <section>
+    <input
+      type="text"
+      placeholder="Entered keyword to search"
+      v-model="keyword"
+      @input="updateKeyword"
+      @change="filterProducts"
+    />
     <ul>
       <product-item
-        v-for="prod in products"
+        v-for="prod in productList"
         :key="prod.id"
         :id="prod.id"
         :title="prod.title"
@@ -15,6 +22,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState, mapGetters } from 'vuex';
 import ProductItem from '../components/products/ProductItem.vue';
 
 export default {
@@ -22,8 +30,19 @@ export default {
     ProductItem,
   },
   computed: {
+    ...mapState('prods', ['keyword']),
+    ...mapGetters('prods', 'listFilteredProducts'),
     products() {
       return this.$store.getters['prods/productList'];
+    },
+  },
+  methods: {
+    ...mapMutations('prods', ['setKeyword']),
+    updateKeyword(e) {
+      this.setKeyword(e.target.value);
+    },
+    filterProducts() {
+      this.$store.dispatch('prods/filterProducts', this.keyword);
     },
   },
 };
