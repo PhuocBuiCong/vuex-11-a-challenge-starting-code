@@ -35,17 +35,15 @@ export default {
     };
   },
   getters: {
-    productList(state) {
-      return state.products;
-    },
     listFilteredProducts: (state) => state.filteredProducts,
+    productList: (state) => state.products,
   },
   mutations: {
     setKeyword(state, keyword) {
       state.keyword = keyword;
     },
     setFilteredProducts(state, products) {
-      state.products = products;
+      state.filteredProducts = products;
     },
   },
   actions: {

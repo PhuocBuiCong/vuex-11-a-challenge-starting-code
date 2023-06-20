@@ -15,6 +15,9 @@
         <li v-if="isLoggedIn">
           <router-link to="/admin">Admin</router-link>
         </li>
+        <li v-if="isLoggedIn">
+          <router-link to="/create-product">Add Product</router-link>
+        </li>
       </ul>
     </nav>
     <div>
