@@ -8,12 +8,8 @@
         id="title"
         placeholder="Enter title"
         v-model="email"
-        @input="updateEmail"
-        @focusout="validateFields('email')"
+        @input="updateTitle"
       />
-      <!-- <div v-if="emailError" class="error text-danger">
-        {{ emailError }}
-      </div> -->
     </div>
     <div class="form-group">
       <label for="description">Description</label>
@@ -23,33 +19,23 @@
         id="description"
         placeholder="Description"
         v-model="password"
-        @input="updatePassword"
-        @focusout="validateFields('password')"
+        @input="updateDescription"
       />
-      <!-- <div v-if="passwordError" class="error text-danger">
-        {{ passwordError }}
-      </div> -->
     </div>
     <div class="form-group">
-      <label for="price">Price</label>
+      <label for="price">Price ($)</label>
       <input
-        type="text"
+        type="number"
         class="form-control"
         id="price"
         placeholder="Price"
         v-model="password"
-        @input="updatePassword"
-        @focusout="validateFields('password')"
+        @input="updatePrice"
       />
     </div>
 
-    <button
-      type="submit"
-      class="btn btn-primary"
-      :class="disableBtn"
-      @click="handleLogin"
-    >
-      Submit
+    <button type="submit" class="btn btn-primary" @click="addToCart">
+      Add Cart
     </button>
   </form>
 </template>
@@ -58,28 +44,26 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   computed: {
-    ...mapState('auth', ['email', 'password', 'emailError', 'passwordError']),
-    disableBtn() {
-      if (this.emailError || this.passwordError) {
-        return 'disable-btn';
-      }
-      return '';
-    },
+    ...mapState('create', ['title', 'description', 'price']),
   },
   methods: {
-    ...mapMutations('auth', ['setEmail', 'setPassword']),
-    ...mapActions('auth', ['validateFields']),
-    updateEmail(event) {
-      this.setEmail(event.target.value); // Call the setEmail mutation to update the email state in the store
+    ...mapMutations('create', ['setTitle', 'setDescription', 'setPrice']),
+    ...mapActions('create', ['addToProduct']),
+    updateTitle(event) {
+      this.setTitle(event.target.value);
     },
-    updatePassword(event) {
-      this.setPassword(event.target.value); // Call the setPassword mutation to update the password state in the store
+    updateDescription(event) {
+      this.setDescription(event.target.value);
     },
-    handleLogin(e) {
+    updatePrice(event) {
+      this.setPrice(event.target.value);
+    },
+    addToCart(e) {
       e.preventDefault();
-      console.log('email', this.email);
-      console.log('password', this.password);
-      this.$router.push('/products');
+      console.log('title', this.title);
+      console.log('description', this.description);
+      console.log('price', this.price);
+      this.addToProduct();
     },
   },
 };
