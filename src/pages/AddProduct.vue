@@ -60,10 +60,8 @@ export default {
     },
     addToCart(e) {
       e.preventDefault();
-      console.log('title', this.title);
-      console.log('description', this.description);
-      console.log('price', this.price);
       this.addToProduct();
+      this.$router.push('/products');
     },
   },
 };

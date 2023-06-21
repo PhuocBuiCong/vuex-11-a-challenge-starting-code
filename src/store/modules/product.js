@@ -15,7 +15,7 @@ export default {
         {
           id: '2',
           image:
-            'https://upload.wikimedia.org/wikipedia/en/thumb/c/c9/Tent_at_High_Shelf_Camp_cropped.jpg/640px-Tent_at_High_Shelf_Camp_cropped.jpg',
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Books_HD_%288314929977%29.jpg/640px-Books_HD_%288314929977%29.jpg',
           title: 'Mountain Tent',
           description: 'A tent for the ambitious outdoor tourist.',
           price: 129.99,
@@ -45,9 +45,9 @@ export default {
     setFilteredProducts(state, products) {
       state.filteredProducts = products;
     },
-    addProduct(state,product) {
-      state.products.push(product)
-    }
+    addProduct(state, product) {
+      state.products.push(product);
+    },
   },
   actions: {
     filterProducts({ commit, state }, keyword) {

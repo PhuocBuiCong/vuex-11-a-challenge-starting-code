@@ -12,6 +12,7 @@ const router = createRouter({
     { path: '/', redirect: '/products' },
     { path: '/login', component: ShopLogin },
     { path: '/create-product', component: AddProduct },
+    { path: '/product/edit/:slug', component: AddProduct },
     { path: '/products', component: ProductsList },
     { path: '/cart', component: UserCart },
     { path: '/admin', component: ShopAdmin },
