@@ -3,12 +3,14 @@ import productModule from './modules/product.js';
 import cartModule from './modules/cart.js';
 import authModule from './modules/auth.js';
 import createCartModule from './modules/createCart.js';
+import editCartModule from './modules/editCart.js';
 const store = createStore({
   modules: {
     prods: productModule,
     cart: cartModule,
     auth: authModule,
     create: createCartModule,
+    edit: editCartModule,
   },
   state() {
     return {

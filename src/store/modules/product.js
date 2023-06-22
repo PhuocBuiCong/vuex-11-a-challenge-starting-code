@@ -31,6 +31,7 @@ export default {
         },
       ],
       filteredProducts: [],
+      productFilteredById: {},
       keyword: '',
     };
   },
@@ -48,14 +49,21 @@ export default {
     addProduct(state, product) {
       state.products.push(product);
     },
+    getProductById(state, product) {
+      state.productFilteredById = product;
+    },
   },
   actions: {
     filterProducts({ commit, state }, keyword) {
       const filteredProducts = state.products.filter((product) =>
         product.title.toLowerCase().includes(keyword.toLowerCase())
       );
-      console.log('result', filteredProducts);
       commit('setFilteredProducts', filteredProducts);
+    },
+    getProductByIds({ commit, state }, id) {
+      const filteredProductById = state.products.find((item) => item.id === id);
+      console.log('item', filteredProductById);
+      commit('getProductById', filteredProductById);
     },
   },
 };

@@ -12,7 +12,7 @@
         <p>{{ description }}</p>
       </div>
       <div class="action">
-        <div class="btn-action" @click="addToCart">Edit</div>
+        <div class="btn-action" @click="editCart">Edit</div>
         <div class="btn-action delete" @click="addToCart">Delete</div>
       </div>
     </div>
@@ -30,6 +30,9 @@ export default {
       this.$store.dispatch('cart/addToCart', {
         id: this.id,
       });
+    },
+    editCart() {
+      this.$router.push(`/products/edit/${this.id}`);
     },
   },
 };

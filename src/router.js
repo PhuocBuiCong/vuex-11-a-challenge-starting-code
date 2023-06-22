@@ -5,14 +5,14 @@ import UserCart from './pages/UserCart.vue';
 import ShopAdmin from './pages/ShopAdmin.vue';
 import ShopLogin from './pages/ShopLogin.vue';
 import AddProduct from './pages/AddProduct.vue';
-
+import EditProduct from './pages/EditProduct.vue';
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', redirect: '/products' },
     { path: '/login', component: ShopLogin },
     { path: '/create-product', component: AddProduct },
-    { path: '/product/edit/:slug', component: AddProduct },
+    { path: '/products/edit/:slug', component: EditProduct },
     { path: '/products', component: ProductsList },
     { path: '/cart', component: UserCart },
     { path: '/admin', component: ShopAdmin },

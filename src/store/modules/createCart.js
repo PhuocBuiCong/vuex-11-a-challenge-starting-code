@@ -33,7 +33,6 @@ export default {
         description: state.description,
         price: parseFloat(state.price),
       };
-      console.log(newProduct);
       commit('prods/addProduct', newProduct, { root: true });
       commit('resetFormCreate');
     },
