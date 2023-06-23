@@ -13,7 +13,7 @@
       </div>
       <div class="action">
         <div class="btn-action" @click="editCart">Edit</div>
-        <div class="btn-action delete" @click="addToCart">Delete</div>
+        <div class="btn-action delete" @click="deleteCart">Delete</div>
       </div>
     </div>
     <div class="product__actions">
@@ -23,9 +23,12 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   props: ['id', 'image', 'title', 'price', 'description'],
   methods: {
+    ...mapActions('prods', ['deleteProduct']),
     addToCart() {
       this.$store.dispatch('cart/addToCart', {
         id: this.id,
@@ -33,6 +36,9 @@ export default {
     },
     editCart() {
       this.$router.push(`/products/edit/${this.id}`);
+    },
+    deleteCart() {
+      this.deleteProduct(this.id);
     },
   },
 };

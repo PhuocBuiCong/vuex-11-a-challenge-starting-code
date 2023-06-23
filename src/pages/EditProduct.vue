@@ -1,6 +1,16 @@
 <template>
   <form class="form-create mt-4">
     <div class="form-group">
+      <label for="idx">ID</label>
+      <input
+        type="text"
+        class="form-control"
+        id="idx"
+        v-model="productFilteredById.id"
+        readonly
+      />
+    </div>
+    <div class="form-group">
       <label for="title">Title</label>
       <input
         type="text"
@@ -54,6 +64,7 @@ export default {
       'setStateEdit',
     ]),
     ...mapActions('prods', ['getProductByIds']),
+    ...mapActions('edit', ['updatedProduct']),
     updateTitle(event) {
       this.setTitle(event.target.value);
     },
@@ -65,7 +76,7 @@ export default {
     },
     updateProduct(e) {
       e.preventDefault();
-      this.updateProduct();
+      this.updatedProduct();
       this.$router.push('/products');
     },
   },
@@ -73,7 +84,6 @@ export default {
     const id = this.$route.params.slug;
     this.getProductByIds(id);
     this.setStateEdit(this.productFilteredById);
-    console.log(this.productFilteredById);
   },
 };
 </script>

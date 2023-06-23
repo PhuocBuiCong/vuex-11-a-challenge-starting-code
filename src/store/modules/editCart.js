@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      id: '',
       title: '',
       description: '',
       price: '',
@@ -21,7 +22,20 @@ export default {
       state.title = payload.title;
       state.description = payload.description;
       state.price = payload.price;
+      state.id = payload.id;
     },
   },
-  actions: {},
+  actions: {
+    updatedProduct({ commit, state }) {
+      const productUpdated = {
+        id: state.id,
+        title: state.title,
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Books_HD_%288314929977%29.jpg/640px-Books_HD_%288314929977%29.jpg',
+        description: state.description,
+        price: parseFloat(state.price),
+      };
+      commit('prods/updateProduct', productUpdated, { root: true });
+    },
+  },
 };

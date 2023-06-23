@@ -36,7 +36,6 @@ export default {
     };
   },
   getters: {
-    listFilteredProducts: (state) => state.filteredProducts,
     productList: (state) => state.products,
   },
   mutations: {
@@ -52,6 +51,22 @@ export default {
     getProductById(state, product) {
       state.productFilteredById = product;
     },
+    updateProduct(state, updatedProduct) {
+      const productIdChanged = state.products.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
+      if (productIdChanged !== -1) {
+        state.products.splice(productIdChanged, 1, updatedProduct);
+      }
+    },
+    deletedProduct(state, productDeleteId) {
+      const productIndex = state.products.findIndex(
+        (product) => product.id === productDeleteId
+      );
+      if (productIndex !== -1) {
+        state.products.splice(productIndex, 1);
+      }
+    },
   },
   actions: {
     filterProducts({ commit, state }, keyword) {
@@ -62,8 +77,10 @@ export default {
     },
     getProductByIds({ commit, state }, id) {
       const filteredProductById = state.products.find((item) => item.id === id);
-      console.log('item', filteredProductById);
       commit('getProductById', filteredProductById);
+    },
+    deleteProduct({ commit }, productId) {
+      commit('deletedProduct', productId);
     },
   },
 };
