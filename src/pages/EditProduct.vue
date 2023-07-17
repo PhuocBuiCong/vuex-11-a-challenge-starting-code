@@ -6,7 +6,7 @@
         type="text"
         class="form-control"
         id="idx"
-        v-model="productFilteredById.id"
+        v-model="productById._id"
         readonly
       />
     </div>
@@ -17,8 +17,7 @@
         class="form-control"
         id="title"
         placeholder="Enter title"
-        v-model="productFilteredById.title"
-        @input="updateTitle"
+        v-model="productById.title"
       />
     </div>
     <div class="form-group">
@@ -28,8 +27,7 @@
         class="form-control"
         id="description"
         placeholder="Description"
-        v-model="productFilteredById.description"
-        @input="updateDescription"
+        v-model="productById.description"
       />
     </div>
     <div class="form-group">
@@ -39,51 +37,48 @@
         class="form-control"
         id="price"
         placeholder="Price"
-        v-model="productFilteredById.price"
-        @input="updatePrice"
+        v-model="productById.price"
       />
     </div>
 
-    <button type="submit" class="btn btn-primary" @click="updateProduct">
+    <button type="submit" class="btn btn-primary" @click="update">
       Update Cart
     </button>
   </form>
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import { checkPayload } from '../services/useCheckPayloadBeforeSunmit';
 export default {
+  data() {
+    return {
+      previousProduct: null,
+    };
+  },
   computed: {
-    ...mapState('prods', ['productFilteredById']),
+    ...mapState('prods', ['productById']),
+    beforeProductChange() {
+      return this.productById;
+    },
   },
   methods: {
-    ...mapMutations('edit', [
-      'setTitle',
-      'setDescription',
-      'setPrice',
-      'setStateEdit',
-    ]),
-    ...mapActions('prods', ['getProductByIds']),
-    ...mapActions('edit', ['updatedProduct']),
-    updateTitle(event) {
-      this.setTitle(event.target.value);
-    },
-    updateDescription(event) {
-      this.setDescription(event.target.value);
-    },
-    updatePrice(event) {
-      this.setPrice(event.target.value);
-    },
-    updateProduct(e) {
+    ...mapActions('prods', ['getProductById', 'updateProduct']),
+    async update(e) {
       e.preventDefault();
-      this.updatedProduct();
+      const payload = checkPayload(this.previousProduct, this.productById);
+      const id = this.productById._id;
+      if (Object.keys(payload).length > 0) {
+        console.log(payload);
+        await this.updateProduct({ id, payload });
+      }
       this.$router.push('/products');
     },
   },
-  created() {
+  async created() {
     const id = this.$route.params.slug;
-    this.getProductByIds(id);
-    this.setStateEdit(this.productFilteredById);
+    await this.getProductById(id);
+    this.previousProduct = JSON.parse(JSON.stringify(this.productById));
   },
 };
 </script>

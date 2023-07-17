@@ -13,9 +13,9 @@
 
     <ul>
       <product-item
-        v-for="prod in filteredProducts"
-        :key="prod.id"
-        :id="prod.id"
+        v-for="prod in products"
+        :key="prod._id"
+        :id="prod._id"
         :title="prod.title"
         :image="prod.image"
         :description="prod.description"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import ProductItem from '../components/products/ProductItem.vue';
 
 export default {
@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     ...mapMutations('prods', ['setKeyword']),
+    ...mapActions('prods', ['getProductsList']),
     updateKeyword(e) {
       this.setKeyword(e.target.value);
     },
@@ -48,6 +49,8 @@ export default {
   created() {
     // Initialize filteredProducts with all products
     this.$store.commit('prods/setFilteredProducts', this.products);
+    console.log('111');
+    this.getProductsList();
   },
   watch: {
     keyword(newKeyword) {

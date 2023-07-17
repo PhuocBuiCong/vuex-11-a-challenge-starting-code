@@ -1,37 +1,12 @@
+import http from '../../plugins/axios';
+
 export default {
   namespaced: true,
   state() {
     return {
-      products: [
-        {
-          id: '1',
-          image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Books_HD_%288314929977%29.jpg/640px-Books_HD_%288314929977%29.jpg',
-          title: 'Book Collection',
-          description:
-            'A collection of must-read books. All-time classics included!',
-          price: 99.99,
-        },
-        {
-          id: '2',
-          image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Books_HD_%288314929977%29.jpg/640px-Books_HD_%288314929977%29.jpg',
-          title: 'Mountain Tent',
-          description: 'A tent for the ambitious outdoor tourist.',
-          price: 129.99,
-        },
-        {
-          id: '3',
-          image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/640px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-          title: 'Food Box',
-          description:
-            'May be partially expired when it arrives but at least it is cheap!',
-          price: 6.99,
-        },
-      ],
+      products: [],
       filteredProducts: [],
-      productFilteredById: {},
+      productById: {},
       keyword: '',
     };
   },
@@ -47,9 +22,6 @@ export default {
     },
     addProduct(state, product) {
       state.products.push(product);
-    },
-    getProductById(state, product) {
-      state.productFilteredById = product;
     },
     updateProduct(state, updatedProduct) {
       const productIdChanged = state.products.findIndex(
@@ -75,12 +47,34 @@ export default {
       );
       commit('setFilteredProducts', filteredProducts);
     },
-    getProductByIds({ commit, state }, id) {
-      const filteredProductById = state.products.find((item) => item.id === id);
-      commit('getProductById', filteredProductById);
-    },
     deleteProduct({ commit }, productId) {
       commit('deletedProduct', productId);
+    },
+    async getProductsList({ state }) {
+      try {
+        const response = await http.get('/products');
+        state.products = response.data.products;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getProductById({ state }, id) {
+      try {
+        const response = await http.get(`/product/${id}`);
+        console.log(response);
+        state.productById = response.data.product;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateProduct(context, { id, payload }) {
+      try {
+        console.log(id, payload);
+        const response = await http.put(`${id}/update`, payload);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
